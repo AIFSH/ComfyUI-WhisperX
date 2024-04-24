@@ -36,7 +36,7 @@ to speaker diarization, you need!
 3. Create access token at [`hf.co/settings/tokens`](https://hf.co/settings/tokens).
 
 ## Tutorial
-todo
+[Demo](https://www.bilibili.com/video/BV19i421y7jb/)
 
 ## WeChat Group && Donate
 <div>
