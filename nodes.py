@@ -106,6 +106,7 @@ class WhisperX:
             # diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers)
 
             result = whisperx.assign_word_speakers(diarize_segments, result)
+            import gc; gc.collect(); torch.cuda.empty_cache(); del diarize_model
         # print(diarize_segments)
         # print(result.segments) # segments are now assigned speaker IDs
         
@@ -133,7 +134,6 @@ class WhisperX:
         with open(trans_srt_path, 'w') as f:
             f.write(srt.compose(trans_srt_line))
             
-        import gc; gc.collect(); torch.cuda.empty_cache(); del diarize_model
         if if_translate:
             return (srt_path,trans_srt_path)
         else:
