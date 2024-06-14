@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-whisperx"
+description = "a comfyui cuatom node for audio subtitling based on [a/whisperX](https://github.com/m-bain/whisperX.git) and [a/translators](https://github.com/UlionTse/translators)"
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["srt", "faster-whisper", "transformers", "pandas", "nltk", "pyannote.audio", "ffmpeg-python", "translators"]
+
+[project.urls]
+Repository = "https://github.com/AIFSH/ComfyUI-WhisperX"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-WhisperX"
+Icon = ""
