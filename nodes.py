@@ -51,7 +51,7 @@ class SRTToString:
         dir_name = os.path.basename(dir_name)
         with open(srt, 'r') as f:
             srt_content = f.read()
-        return srt_content
+        return (srt_content,)
 
 
 class WhisperX:
