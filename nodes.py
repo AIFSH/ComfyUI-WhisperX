@@ -33,6 +33,27 @@ class PreViewSRT:
             srt_content = f.read()
         return {"ui": {"srt":[srt_content,srt_name,dir_name]}}
 
+
+class SRTToString:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {"srt": ("SRT",)},
+                }
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "read"
+
+    CATEGORY = "AIFSH_FishSpeech"
+
+    def read(self,srt):
+        srt_name = os.path.basename(srt)
+        dir_name = os.path.dirname(srt)
+        dir_name = os.path.basename(dir_name)
+        with open(srt, 'r') as f:
+            srt_content = f.read()
+        return srt_content
+
+
 class WhisperX:
     @classmethod
     def INPUT_TYPES(s):
