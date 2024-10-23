@@ -151,11 +151,11 @@ class WhisperX:
                 content = ts.translate_text(query_text=content, translator=translator,to_language=to_language)
                 trans_srt_line.append(srt.Subtitle(index=i+1, start=start, end=end, content=speaker_name+content))
                 
-        with open(srt_path, 'w') as f:
+        with open(srt_path, 'w', encoding="utf-8") as f:
             f.write(srt.compose(srt_line))
-        with open(trans_srt_path, 'w') as f:
+        with open(trans_srt_path, 'w', encoding="utf-8") as f:
             f.write(srt.compose(trans_srt_line))
-            
+
         if if_translate:
             return (srt_path,trans_srt_path)
         else:
