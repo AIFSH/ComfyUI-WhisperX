@@ -33,6 +33,27 @@ class PreViewSRT:
             srt_content = f.read()
         return {"ui": {"srt":[srt_content,srt_name,dir_name]}}
 
+
+class SRTToString:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {"srt": ("SRT",)},
+                }
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "read"
+
+    CATEGORY = "AIFSH_FishSpeech"
+
+    def read(self,srt):
+        srt_name = os.path.basename(srt)
+        dir_name = os.path.dirname(srt)
+        dir_name = os.path.basename(dir_name)
+        with open(srt, 'r') as f:
+            srt_content = f.read()
+        return (srt_content,)
+
+
 class WhisperX:
     @classmethod
     def INPUT_TYPES(s):
@@ -47,7 +68,7 @@ class WhisperX:
         'yeekit', 'youdao']
         lang_list = ["zh","en","ja","ko","ru","fr","de","es","pt","it","ar"]
         return {"required":
-                    {"audio": ("AUDIO",),
+                    {"audio": ("AUDIOPATH",),
                      "model_type":(model_list,{
                          "default": "large-v3"
                      }),
@@ -81,6 +102,7 @@ class WhisperX:
     def get_srt(self, audio,model_type,batch_size,if_mutiple_speaker,
                 use_auth_token,if_translate,translator,to_language):
         compute_type = "float16"
+
         base_name = os.path.basename(audio)[:-4]
         device = "cuda" if cuda_malloc.cuda_malloc_supported() else "cpu"
         # 1. Transcribe with original whisper (batched)
@@ -129,17 +151,17 @@ class WhisperX:
                 content = ts.translate_text(query_text=content, translator=translator,to_language=to_language)
                 trans_srt_line.append(srt.Subtitle(index=i+1, start=start, end=end, content=speaker_name+content))
                 
-        with open(srt_path, 'w') as f:
+        with open(srt_path, 'w', encoding="utf-8") as f:
             f.write(srt.compose(srt_line))
-        with open(trans_srt_path, 'w') as f:
+        with open(trans_srt_path, 'w', encoding="utf-8") as f:
             f.write(srt.compose(trans_srt_line))
-            
+
         if if_translate:
             return (srt_path,trans_srt_path)
         else:
             return (srt_path,srt_path)
 
-class LoadAudio:
+class LoadAudioPath:
     @classmethod
     def INPUT_TYPES(s):
         files = [f for f in os.listdir(input_path) if os.path.isfile(os.path.join(input_path, f)) and f.split('.')[-1] in ["wav", "mp3","WAV","flac","m4a"]]
@@ -149,7 +171,7 @@ class LoadAudio:
 
     CATEGORY = "AIFSH_WhisperX"
 
-    RETURN_TYPES = ("AUDIO",)
+    RETURN_TYPES = ("AUDIOPATH",)
     FUNCTION = "load_audio"
 
     def load_audio(self, audio):
