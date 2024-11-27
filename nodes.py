@@ -57,7 +57,7 @@ class SRTToString:
 class WhisperX:
     @classmethod
     def INPUT_TYPES(s):
-        model_list = ["large-v3","distil-large-v3","large-v2"]
+        model_list = ["large-v3","distil-large-v3","large-v2", "large-v3-turbo"]
         translator_list = ['alibaba', 'apertium', 'argos', 'baidu', 'bing',
         'caiyun', 'cloudTranslation', 'deepl', 'elia', 'google',
         'hujiang', 'iciba', 'iflytek', 'iflyrec', 'itranslate',
@@ -106,6 +106,8 @@ class WhisperX:
         base_name = os.path.basename(audio)[:-4]
         device = "cuda" if cuda_malloc.cuda_malloc_supported() else "cpu"
         # 1. Transcribe with original whisper (batched)
+        if model_type == "large-v3-turbo":
+            model_type = "deepdml/faster-whisper-large-v3-turbo-ct2"
         model = whisperx.load_model(model_type, device, compute_type=compute_type)
         audio = whisperx.load_audio(audio)
         result = model.transcribe(audio, batch_size=batch_size)
