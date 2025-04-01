@@ -31,6 +31,8 @@ function previewAudio(node,file){
         },
     });
     previewWidget.computeSize = function(width) {
+        return [width, 15];
+        
         if (this.aspectRatio && !this.parentEl.hidden) {
             let height = (previewNode.size[0]-20)/ this.aspectRatio + 10;
             if (!(height > 0)) {
@@ -59,8 +61,8 @@ function previewAudio(node,file){
     });
     previewWidget.audioEl.addEventListener("error", () => {
         //TODO: consider a way to properly notify the user why a preview isn't shown.
-        previewWidget.parentEl.hidden = true;
-        fitHeight(this);
+       // previewWidget.parentEl.hidden = true;
+       // fitHeight(this);
     });
 
     let params =  {
@@ -69,7 +71,7 @@ function previewAudio(node,file){
     }
     
     previewWidget.parentEl.hidden = previewWidget.value.hidden;
-    previewWidget.audioEl.autoplay = !previewWidget.value.paused && !previewWidget.value.hidden;
+    previewWidget.audioEl.autoplay = false; //!previewWidget.value.paused && !previewWidget.value.hidden;
     let target_width = 256
     if (element.style?.width) {
         //overscale to allow scrolling. Endpoint won't return higher than native
@@ -161,7 +163,7 @@ function audioUpload(node, inputName, inputData, app) {
     const fileInput = document.createElement("input");
     Object.assign(fileInput, {
         type: "file",
-        accept: "audio/mp3,audio/wav,audio/flac,audio/m4a",
+        accept: "audio/mp3,audio/wav,audio/flac,audio/m4a,video/mp4",
         style: "display: none",
         onchange: async () => {
             if (fileInput.files.length) {
@@ -195,7 +197,7 @@ ComfyWidgets.AUDIOPLOAD = audioUpload;
 app.registerExtension({
 	name: "WhispherX.UploadAudio",
 	async beforeRegisterNodeDef(nodeType, nodeData, app) {
-		if (nodeData?.name == "LoadAudio") {
+		if (nodeData?.name == "LoadAudioVideoPath") {
 			nodeData.input.required.upload = ["AUDIOPLOAD"];
 		}
 	},

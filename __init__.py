@@ -10,7 +10,7 @@ from .nodes import LoadAudioPath,WhisperX,PreViewSRT,SRTToString
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "LoadAudioPath": LoadAudioPath,
+    "LoadAudioVideoPath": LoadAudioPath,
     "WhisperX": WhisperX,
     "PreViewSRT":PreViewSRT,
     "SRTToString":SRTToString
@@ -18,7 +18,7 @@ NODE_CLASS_MAPPINGS = {
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadAudioPath": "LoadAudioPath",
+    "LoadAudioVideoPath": "LoadAudioVideoPath",
     "WhisperX": "WhisperX Node",
     "PreViewSRT":"PreView SRT",
     "SRTToString": "SRT to String"
